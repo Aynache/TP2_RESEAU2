@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+
+<BorderPane xmlns:fx="http://javafx.com/fxml"
+            fx:controller="org.example.client.gui.MainController">
+
+    <!-- ================= TOP BAR ================= -->
+    <top>
+        <VBox spacing="10">
+            <padding>
+                <Insets top="10" right="10" bottom="10" left="10"/>
+            </padding>
+
+            <!-- ===== Recherche par nom ===== -->
+            <HBox spacing="10">
+                <Label text="Recherche :" />
+                <TextField fx:id="searchField"
+                           promptText="Nom / Prénom / ID"
+                           prefWidth="200"/>
+                <Button text="Rechercher" onAction="#onSearch"/>
+                <Button fx:id="adminButton" text="Admin" onAction="#onAdmin"/>
+            </HBox>
+
+            <!-- ===== Lister par catégorie ===== -->
+            <HBox spacing="10">
+                <Label text="Catégorie :" />
+                <ComboBox fx:id="categoryCombo" prefWidth="160"/>
+                <Button text="Lister les membres par catégorie"
+                        onAction="#onListByCategory"/>
+            </HBox>
+
+            <!-- ===== Lister professeurs par domaine ===== -->
+            <HBox spacing="10">
+                <Label text="Domaine :" />
+                <ComboBox fx:id="domainCombo" prefWidth="200"/>
+                <Button text="Lister les professeurs par domaine"
+                        onAction="#onListProfessorsByDomain"/>
+            </HBox>
+        </VBox>
+    </top>
+
+
+    <!-- ================= CENTER TABLE ================= -->
+    <center>
+        <SplitPane dividerPositions="0.70">
+            <TableView fx:id="tableView">
+                <columns>
+                    <TableColumn fx:id="colId" text="ID" prefWidth="220"/>
+                    <TableColumn fx:id="colMatricule" text="Matricule" prefWidth="120"/>
+                    <TableColumn fx:id="colPrenom" text="Prénom" prefWidth="120"/>
+                    <TableColumn fx:id="colNom" text="Nom" prefWidth="120"/>
+                    <TableColumn fx:id="colCategorie" text="Catégorie" prefWidth="120"/>
+                    <TableColumn fx:id="colEmail" text="Email" prefWidth="200"/>
+                    <TableColumn fx:id="colDomaine" text="Domaine" prefWidth="150"/>
+                    <TableColumn fx:id="colListeRouge" text="Liste rouge" prefWidth="100"/>
+                </columns>
+            </TableView>
+
+            <!-- ====== ADMIN PANEL (hidden until login ok) ====== -->
+            <VBox fx:id="adminPane" spacing="10" style="-fx-padding: 12;">
+                <Label text="Mode Admin" style="-fx-font-weight: bold; -fx-font-size: 14;"/>
+
+                <TextField fx:id="idField" promptText="ID (laisser vide pour ajouter)"/>
+                <TextField fx:id="prenomField" promptText="Prénom"/>
+                <TextField fx:id="nomField" promptText="Nom"/>
+
+                <ComboBox fx:id="adminCategoryCombo" promptText="Catégorie"/>
+
+                <TextField fx:id="matriculeField" promptText="Matricule (étudiant)"/>
+                <TextField fx:id="emailField" promptText="Email"/>
+                <TextField fx:id="telephoneField" promptText="Téléphone"/>
+                <TextField fx:id="domaineField" promptText="Domaine d'activité"/>
+
+                <HBox spacing="10">
+                    <Button text="Ajouter" onAction="#onAdminAdd"/>
+                    <Button text="Modifier" onAction="#onAdminUpdate"/>
+                    <Button text="Supprimer" onAction="#onAdminDelete"/>
+                </HBox>
+
+                <HBox spacing="10">
+                    <Button text="Mettre sur liste rouge" onAction="#onAdminRedOn"/>
+                    <Button text="Retirer liste rouge" onAction="#onAdminRedOff"/>
+                </HBox>
+
+                <Label text="Astuce: clique une ligne du tableau pour remplir le formulaire."
+                       style="-fx-opacity: 0.75;"/>
+            </VBox>
+        </SplitPane>
+    </center>
+
+    <!-- ================= STATUS BAR ================= -->
+    <bottom>
+        <Label fx:id="statusLabel"
+               text="Connecté au serveur RMI"
+               style="-fx-padding: 10; -fx-font-weight: bold;"/>
+    </bottom>
+
+</BorderPane>

@@ -121,4 +121,10 @@ public class AnnuaireServiceImpl extends UnicastRemoteObject implements Annuaire
         // les autres champs restent null
         return masked;
     }
+
+    @Override
+    public boolean verifierAdmin(String adminPassword) throws RemoteException {
+        return ServerConfig.ADMIN_PASSWORD.equals(adminPassword);
+    }
+
 }

@@ -36,4 +36,7 @@ public interface AnnuaireService extends Remote {
 
     void retirerDeListeRouge(String id, String adminPassword)
             throws RemoteException, AuthenticationException;
+
+    boolean verifierAdmin(String adminPassword) throws RemoteException;
+
 }
