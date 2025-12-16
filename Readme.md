@@ -13,15 +13,6 @@ Application client–serveur en **Java** permettant de gérer un annuaire univer
 - Gérer des **droits d’accès administrateur**
 - Appliquer une séparation claire des responsabilités (Client / Service / Données)
 
----
-
-## 🏗️ Architecture générale
-
-┌─────────────┐ RMI ┌──────────────┐
-│ Client GUI │ ─────────────▶ │ Serveur │
-│ (JavaFX) │ │ RMI │
-└─────────────┘ │ SQLite │
-└──────────────┘
 
 ### Composants
 - **Client JavaFX**
@@ -56,17 +47,17 @@ src/
 
 ### Table `person` (SQLite)
 
-| Champ             | Type    | Description                                   |
-|------------------|---------|-----------------------------------------------|
-| id               | TEXT    | Identifiant unique                            |
-| nom              | TEXT    | Nom                                           |
-| prenom           | TEXT    | Prénom                                        |
-| category         | TEXT    | PROFESSEUR / ETUDIANT / AUXILIAIRE           |
-| matricule        | TEXT    | Matricule (étudiant)                          |
-| email            | TEXT    | Adresse courriel                              |
-| telephone        | TEXT    | Numéro de téléphone                           |
-| domaine_activite | TEXT    | Domaine d’activité (professeurs)              |
-| liste_rouge      | INTEGER | 0 = non / 1 = oui                             |
+| Champ             | Type    | Description                                    |
+|------------------|---------|------------------------------------------------|
+| id               | TEXT    | Identifiant unique                             |
+| nom              | TEXT    | Nom                                            |
+| prenom           | TEXT    | Prénom                                         |
+| category         | TEXT    | PROFESSEUR / ETUDIANT / AUXILIAIRE             |
+| matricule        | TEXT    | Matricule (seulement étudiant)                 |
+| email            | TEXT    | Adresse courriel                               |
+| telephone        | TEXT    | Numéro de téléphone                            |
+| domaine_activite | TEXT    | Domaine d’activité (professeurs)               |
+| liste_rouge      | BOOlEAN | TRUE = sur la liste / FALSE = pas sur la liste |
 
 ---
 
