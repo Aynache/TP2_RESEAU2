@@ -1,4 +1,4 @@
-# 📚 Annuaire Universitaire – TP2 INF1010
+# 📚 INF1010 – Réseaux d’ordinateurs II
 
 Application client–serveur en **Java** permettant de gérer un annuaire universitaire
 (professeurs, étudiants, auxiliaires) avec **RMI**, **SQLite** et une interface graphique **JavaFX**.
@@ -102,13 +102,15 @@ src/
 ```bash
 mvn exec:java -Dexec.mainClass="org.example.server.ServerMain"
 ```
+Ou demarrer via l'IDE par exemple IntelliJ en exécutant la classe `ServerMain`.
 
 ### 3️⃣ Démarrer le client JavaFX
 
 ```bash
 mvn javafx:run
 ```
-
+Ou demarrer via l'IDE par exemple IntelliJ en configurant une execution JavaFX
+Vous pouvez allez dans Run > Edit Configurations... >  + > Maven et mettre comme commande `javafx:run`
 
 ---
 ## 🛠️ Technologies utilisées

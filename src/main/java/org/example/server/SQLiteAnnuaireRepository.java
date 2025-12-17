@@ -10,11 +10,8 @@ import java.util.Optional;
 
 public class SQLiteAnnuaireRepository implements AnnuaireRepository {
 
-    public SQLiteAnnuaireRepository() {
-        // Rien de spécial ici pour l'instant
-    }
+    public SQLiteAnnuaireRepository() {}
 
-    // ---------- Méthodes de lecture ----------
 
     @Override
     public List<Person> findByCategorie(Category categorie) {
@@ -119,11 +116,8 @@ public class SQLiteAnnuaireRepository implements AnnuaireRepository {
         return result;
     }
 
-    // ---------- Méthodes d'écriture ----------
-
     @Override
     public void save(Person person) {
-        // On utilise un UPSERT SQLite : INSERT ... ON CONFLICT(id) DO UPDATE
         String sql = """
                 INSERT INTO person (id, nom, prenom, category, matricule, email, telephone, domaine_activite, liste_rouge)
                 VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
@@ -175,8 +169,6 @@ public class SQLiteAnnuaireRepository implements AnnuaireRepository {
             System.err.println("Erreur deleteById : " + e.getMessage());
         }
     }
-
-    // ---------- Mapping ResultSet -> Person ----------
 
     private Person mapRowToPerson(ResultSet rs) throws SQLException {
         Person p = new Person();

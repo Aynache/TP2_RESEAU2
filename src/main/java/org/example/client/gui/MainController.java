@@ -9,8 +9,7 @@ import javafx.scene.control.*;
 import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.property.SimpleStringProperty;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
+
 
 
 import javafx.scene.layout.VBox;
@@ -285,13 +284,22 @@ public class MainController {
     @FXML
     private void onAdminUpdate() {
         ensureAdmin();
+
+        if (tableView.getSelectionModel().getSelectedItem() == null) {
+            statusLabel.setText("Sélectionne un membre dans le tableau avant de modifier.");
+            return;
+        }
+
         try {
             Person p = buildPersonFromForm(true);
             service.modifierMembre(p, adminPassword);
             statusLabel.setText("Modification OK.");
             refreshAfterAdminAction();
-        } catch (Exception e) { showError(e); }
+        } catch (Exception e) {
+            showError(e);
+        }
     }
+
 
     @FXML
     private void onAdminDelete() {
@@ -336,26 +344,29 @@ public class MainController {
     }
 
     private Person buildPersonFromForm(boolean requireId) {
-        String id = idField.getText().trim();
-        if (requireId && id.isEmpty()) throw new IllegalArgumentException("ID requis.");
+        String id = safeText(idField);
+        if (requireId && id.isEmpty()) {
+            throw new IllegalArgumentException("ID requis.");
+        }
 
         Person p = new Person();
         if (!id.isEmpty()) p.setId(id);
 
-        p.setPrenom(prenomField.getText().trim());
-        p.setNom(nomField.getText().trim());
-        p.setCategory(adminCategoryCombo.getSelectionModel().getSelectedItem());
+        p.setPrenom(safeText(prenomField));
+        p.setNom(safeText(nomField));
 
-        p.setMatricule(matriculeField.getText().trim().isEmpty() ? null : matriculeField.getText().trim());
-        p.setEmail(emailField.getText().trim().isEmpty() ? null : emailField.getText().trim());
-        p.setTelephone(telephoneField.getText().trim().isEmpty() ? null : telephoneField.getText().trim());
-        p.setDomaineActivite(domaineField.getText().trim().isEmpty() ? null : domaineField.getText().trim());
+        Category cat = adminCategoryCombo.getSelectionModel().getSelectedItem();
+        if (cat == null) throw new IllegalArgumentException("Catégorie requise.");
+        p.setCategory(cat);
 
-        // liste rouge se gère par boutons dédiés, pas via formulaire
-        p.setListeRouge(false);
+        p.setMatricule(emptyToNull(safeText(matriculeField)));
+        p.setEmail(emptyToNull(safeText(emailField)));
+        p.setTelephone(emptyToNull(safeText(telephoneField)));
+        p.setDomaineActivite(emptyToNull(safeText(domaineField)));
 
         return p;
     }
+
 
     private void refreshAfterAdminAction() {
         // Recharger la table selon le contexte actuel (simple: re-lister catégorie choisie)
@@ -363,6 +374,18 @@ public class MainController {
 
         // Recharger domaines (si ajouts/modifs ont changé domaines)
         loadDomains();
+    }
+
+    private String safeText(TextField tf) {
+        if (tf == null) return "";
+        String v = tf.getText();
+        return v == null ? "" : v.trim();
+    }
+
+    private String emptyToNull(String s) {
+        if (s == null) return null;
+        String v = s.trim();
+        return v.isEmpty() ? null : v;
     }
 
 
